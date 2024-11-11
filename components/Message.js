@@ -1,61 +1,81 @@
-
 'use client'
-import React from 'react';
-import {useState,useEffect,useRef} from 'react';
-import {io} from 'socket.io-client';
-import {IoSend} from 'react-icons/io';
 
-export default function message() {
+import React, { useState, useEffect } from 'react';
+import { ChatFeed, Message } from 'react-chat-ui';
+import io from 'socket.io-client';
 
-  const [message,setMessage] = useState('')
-const [messages,setMessages]=useState([])
-const sockeRef=useRef()
-const messageInputRef=useRef()
+const socket = io('http://localhost:3000'); 
 
+export default function Chat() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
 
-useEffect(()=>{
-  socketRef.current=io();
-  socketRef.current.emit('room',roomId)
-  socketRef.current.on('get message',(newMessage)=>{
-    setMessages((prevMessages)=>[...prevMessages,newMessage])
-  })
-  return()=>{
-    socketRef.current.emit('leave inbox',roomId)
-    socket.current.disconnect();
-  }
-},[roomId])
+  useEffect(() => {
+    
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
 
-const handleSendText=()=>{
-  if(message.trim()){
-    const newMessage ={text:message, sender:'you',roomId}
-    socketRef.current.emit('send text',newMessage)
-    setMessages((prevMessages)=>[...prevMessages,newMessage])
-    setMessage('')
-    messageInputRef.current.focus();
-  }
-}
+    socket.on('receiveMessage', (text) => {
+      console.log('Received message:', text);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        new Message({ id: 1, message: text}),
+      ]);
+    });
+
+    return () => {
+      socket.off('receiveMessage');
+      socket.off('connect');
+    };
+  }, []);
+
+  const handleSendMessage = () => {
+    if (input.trim()) {
+      // Send the message to the backend
+      socket.emit('sendMessage', input);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        new Message({ id: 0, message: input }),
+      ]);
+      setInput('');
+    }
+  };
+
   return (
-    <div>
-        <div className='p-4 max-w-md bg-white rounded-lg shadow-md'>
-    <h2 className='text-xl font-semiblod mb-2'>chat with {userId}</h2>
-    <div className='h-96 overflow-y-auto p-4 bg-gray-400 rounded-lg'>
-      {messages.map((sms,index)=>{
-        <div key={index} className='mb-3'>
-          <p className='text-sm font-medium'>{sms.sender}:</p>
-          <p className='text-gray-400 font-medium'>{sms.text}:</p>
-        </div>
-      })}
-      <div className='flex sppace-x-2'>
-        <input
-        ref={messageInputRef}
-        type='text' className='flex-1 p-2 border rounded-lg' placeholder='type message' value={message}
-        onChange={(e)=>setMessage(e.target.value)}/>
-        <button className='bg-blue-400 p-2 rounded-lg' onClick={handleSendText}><IoSend size={40}/></button>
-
+    <div className="w-full max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-4 flex flex-col h-[600px]">
+      {/* Chat Feed */}
+      <div className="flex-1 overflow-y-auto mb-4">
+        <ChatFeed
+          messages={messages}
+          isTyping={false}
+          hasInputField={false}
+          showSenderName
+          bubblesCentered={false}
+          bubbleStyles={{
+            text: { fontSize: 16 },
+            chatbubble: { borderRadius: 20, padding: 10 },
+          }}
+        />
       </div>
 
+      {/* Input area */}
+      <div className="flex items-center space-x-2 border-t pt-3 mt-2">
+        <input
+          type="text"
+          value={input}
+
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type a message..."
+          className="flex-1 p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <button
+          onClick={handleSendMessage}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+        >
+          Send
+        </button>
+      </div>
     </div>
-  </div>
-    </div>
-  )
+  );
 }
