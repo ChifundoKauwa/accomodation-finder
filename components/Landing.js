@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Chat from './Message'
 
 // Mock data for hostels
 const hostelsData = [
@@ -64,7 +66,9 @@ export default function Landing() {
               onChange={(e) => setLocationFilter(e.target.value)}
               className="border border-gray-300 rounded-l-md px-4 py-2 w-72 focus:outline-none"
             />
+            
             <button onClick={handleSearch} className="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700">Search</button>
+          
           </div>
         </section>
 
@@ -76,7 +80,11 @@ export default function Landing() {
                 <h3 className="text-xl font-semibold text-gray-800">{hostel.name}</h3>
                 <p className="mt-2 text-gray-600">MWK {hostel.price.toLocaleString()} / Month</p>
                 <p className="text-gray-500 mt-1">{hostel.description}</p>
+                <Link href={'/Message'}>
+            
                 <button className="mt-4 bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Booking</button>
+                </Link>
+            
               </div>
             </div>
           ))}
