@@ -8,16 +8,16 @@ import { useEffect, useState } from 'react';
 const hostelsData = [
   { id: 1, name: 'Protea Hotel', location: 'Blantyre', price: 125000, image: '/hotel1.jpg', description: 'Excellent facilities with free cancellation and breakfast included.' },
   { id: 2, name: 'Amaryllis Hotel', location: 'Blantyre', price: 150000, image: '/hotel2.jpg', description: 'Beautiful views and modern amenities. Free cancellation included.' },
-  { id: 3, name: 'Cedar Hostel', location: 'Lilongwe', price: 85000, image: '/hotel3.jpg', description: 'Ideal for budget travelers. Free breakfast and no prepayment.' },
-  { id: 4, name: 'Sunbird Hostel', location: 'Lilongwe', price: 130000, image: '/hotel4.jpg', description: 'Luxury stay with spacious rooms and all amenities.' },
-  { id: 5, name: 'Lodge Hostel', location: 'Mzuzu', price: 75000, image: '/hotel5.jpg', description: 'Comfortable and affordable, perfect for business travelers.' },
-  { id: 6, name: 'Blantyre Hostel', location: 'Blantyre', price: 90000, image: '/hotel6.jpg', description: 'Modern interiors with a relaxing environment.' },
+  { id: 3, name: 'Cedar Place', location: 'Lilongwe', price: 85000, image: '/hotel3.jpg', description: 'Ideal for budget travelers. Free breakfast and no prepayment.' },
+  { id: 4, name: 'Sunbird Capital', location: 'Lilongwe', price: 130000, image: '/hotel4.jpg', description: 'Luxury stay with spacious rooms and all amenities.' },
+  { id: 5, name: 'Lodge Victoria', location: 'Mzuzu', price: 75000, image: '/hotel5.jpg', description: 'Comfortable and affordable, perfect for business travelers.' },
+  { id: 6, name: 'Blantyre Lodge', location: 'Blantyre', price: 90000, image: '/hotel6.jpg', description: 'Modern interiors with a relaxing environment.' },
   { id: 7, name: 'Warm Heart Hotel', location: 'Lilongwe', price: 110000, image: '/hotel7.jpg', description: 'Popular choice for comfort and quality service.' },
-  { id: 8, name: 'Green Hostel', location: 'Mzuzu', price: 68000, image: '/hotel8.jpg', description: 'Budget-friendly with all essential amenities.' },
-  { id: 9, name: 'Mountain Hostel', location: 'Blantyre', price: 105000, image: '/hotel9.jpg', description: 'Beautiful mountain view with premium services.' },
-  { id: 10, name: 'Lake Shore Hostel', location: 'Mangochi', price: 95000, image: '/hotel10.jpg', description: 'Ideal for a quiet getaway by the lake.' },
-  { id: 11, name: 'Riverside Hostel', location: 'Mangochi', price: 87000, image: '/hotel11.jpg', description: 'Affordable stay with scenic river views.' },
-  { id: 12, name: 'Hilltop Hostel', location: 'Zomba', price: 115000, image: '/hotel12.jpg', description: 'Elegant rooms and convenient location.' }
+  { id: 8, name: 'Green Inn', location: 'Mzuzu', price: 68000, image: '/hotel8.jpg', description: 'Budget-friendly with all essential amenities.' },
+  { id: 9, name: 'Mountain View', location: 'Blantyre', price: 105000, image: '/hotel9.jpg', description: 'Beautiful mountain view with premium services.' },
+  { id: 10, name: 'Lake Shore Lodge', location: 'Mangochi', price: 95000, image: '/hotel10.jpg', description: 'Ideal for a quiet getaway by the lake.' },
+  { id: 11, name: 'Riverside Inn', location: 'Mangochi', price: 200000, image: '/hotel11.jpg', description: 'Affordable stay with scenic river views.' },
+  { id: 12, name: 'Hilltop Suites', location: 'Zomba', price: 115000, image: '/hotel12.jpg', description: 'Elegant rooms and convenient location.' }
 ];
 
 export default function Home() {
@@ -39,12 +39,19 @@ export default function Home() {
     router.push(`/?location=${locationFilter}`);
   };
 
+  const handleBookingClick = () => {
+    // Redirect to login or register page
+    router.push('/register'); // Change '/register' to the actual path of your register/login page
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-md">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-600">Accommodation Finder</h1>
           <nav className="space-x-4">
+            <a href="/" className="text-gray-700 hover:text-blue-600">Home</a>
+            <a href="#about" className="text-gray-700 hover:text-blue-600">About</a>
             <a href="#hotels" className="text-gray-700 hover:text-blue-600">Hotels</a>
             <a href="#contact" className="text-gray-700 hover:text-blue-600">Contact</a>
           </nav>
@@ -76,14 +83,19 @@ export default function Home() {
                 <h3 className="text-xl font-semibold text-gray-800">{hostel.name}</h3>
                 <p className="mt-2 text-gray-600">MWK {hostel.price.toLocaleString()} / Month</p>
                 <p className="text-gray-500 mt-1">{hostel.description}</p>
-                <button className="mt-4 bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Booking</button>
+                <button 
+                  onClick={handleBookingClick} 
+                  className="mt-4 bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                >
+                  Booking
+                </button>
               </div>
             </div>
           ))}
         </section>
       </main>
 
-      <footer className="bg-gray-100 py-8 mt-8">
+      <footer className="bg-blue-200 py-8 mt-8">
         <div className="container mx-auto text-center">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-700">
             <div>
