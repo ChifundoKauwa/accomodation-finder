@@ -1,10 +1,19 @@
+"use client";
 
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LoginForm from '../components/LoginForm';
+import SignUpForm from '../components/SignUpForm';
 
-export default function Home() {
+function App() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      hcdncdjvnjcm
-
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
