@@ -1,7 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!username || !email || !password || !confirmPassword) {
+      setError('Please fill out all fields');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Simulated registration success
+    navigate('/'); // Redirect to login after successful registration
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-500 to-blue-800">
       <div className="bg-white rounded-lg shadow-lg p-8 w-80">
@@ -14,11 +39,13 @@ const SignUpForm = () => {
           <h2 className="mt-2 text-lg font-semibold text-gray-700">Sign up</h2>
         </div>
         
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <input 
               type="text" 
               placeholder="Username" 
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
             />
           </div>
@@ -27,6 +54,8 @@ const SignUpForm = () => {
             <input 
               type="email" 
               placeholder="Email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
             />
           </div>
@@ -35,6 +64,8 @@ const SignUpForm = () => {
             <input 
               type="password" 
               placeholder="Password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
             />
           </div>
@@ -43,9 +74,13 @@ const SignUpForm = () => {
             <input 
               type="password" 
               placeholder="Confirm Password" 
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
             />
           </div>
+
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <button type="submit" className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
             Sign Up
