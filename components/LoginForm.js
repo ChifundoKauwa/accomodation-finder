@@ -2,26 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    setError('');
-
-    if (username === '' || password === '') {
-      setError('Please fill out all fields');
-      return;
-    }
-
-    // Dummy authentication logic
-    if (username === 'testuser' && password === 'password123') {
-      navigate('/dashboard'); // Redirect to a dashboard page
-    } else {
-      setError('Invalid username or password');
-    }
+    // Simulate login success; you can add your authentication logic here
+    navigate('/dashboard');
   };
 
   return (
@@ -36,28 +23,37 @@ const LoginForm = () => {
           <h2 className="mt-2 text-lg font-semibold text-gray-700">Sign in</h2>
         </div>
         
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div>
             <input 
               type="text" 
               placeholder="Username" 
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
             />
           </div>
 
-          <div>
+          <div className="relative">
             <input 
-              type="password" 
+              type={showPassword ? "text" : "password"} 
               placeholder="Password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
             />
+            <button 
+              type="button" 
+              className="absolute inset-y-0 right-3 flex items-center text-blue-500 hover:text-blue-600"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
           </div>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <div className="flex items-center justify-between text-sm text-gray-600">
+            <label className="inline-flex items-center">
+              <input type="checkbox" className="text-blue-500 border-gray-300 rounded focus:ring-0" />
+              <span className="ml-2">Remember me</span>
+            </label>
+            <Link to="/signup" className="text-blue-500 hover:underline">Forgot password?</Link>
+          </div>
 
           <button type="submit" className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
             Login
