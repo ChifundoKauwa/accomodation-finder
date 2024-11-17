@@ -1,5 +1,8 @@
+'use client'
+
+
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
 
 const SignUpForm = () => {
   const [username, setUsername] = useState('');
@@ -7,7 +10,7 @@ const SignUpForm = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,7 +27,8 @@ const SignUpForm = () => {
     }
 
     // Simulated registration success
-    navigate('/'); // Redirect to login after successful registration
+    
+    // Redirect to login after successful registration
   };
 
   return (
@@ -82,13 +86,13 @@ const SignUpForm = () => {
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <button type="submit" className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+          <button type="submit" className="w-full py-2 mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
             Sign Up
           </button>
         </form>
         
         <p className="mt-4 text-center text-sm text-gray-600">
-          Already have an account? <Link to="/" className="text-blue-500 hover:underline">Sign in</Link>
+          Already have an account? <Link href={"/components/LoginForm"} className="text-blue-500 hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

@@ -1,20 +1,14 @@
 "use client";
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
-import SignUpForm from '../components/SignUpForm';
+
+import Landing from './components/Landing/page'
 
 
-function App() {
+function Home() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginForm />} />
-        <Route path="/signup" element={<SignUpForm />} />
-      </Routes>
-    </Router>
+    <Landing/>
   );
 }
 
-export default App;
+export default Home;
