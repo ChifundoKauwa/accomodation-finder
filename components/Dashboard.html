@@ -6,6 +6,7 @@
 <body>
     <p>VISIT US</p>
     <input placeholder="House location" class="js-location-input">
+    <input type="file" class="js-image-input" accept="image/*"> <!-- Added file input for images -->
     <button onclick="addDashboard()">Add</button> <!-- Corrected the onclick to call the function -->
     <div class="js-dashboard"></div> <!-- Added a div to display the dashboard -->
     <script>
@@ -15,23 +16,31 @@
         function renderDashboard() {
             let DashboardHTML = ''; // Initialize DashboardHTML variable
             for (let i = 0; i < Dashboard.length; i++) {
-                const { location, date } = Dashboard[i]; // Destructure the object
-                const html = `<p>${location} - Added on: ${date} <button onclick="deleteLocation(${i})">Delete</button></p>`;
+                const { location, date, image } = Dashboard[i]; // Destructure the object
+                const html = `
+                    <div>
+                        ${image ? `<img src="${image}" alt="Location Image" style="width: 100px; height: 100px;">` : ''}
+                        <p>${location} - Added on: ${date} <button onclick="deleteLocation(${i})">Delete</button></p>
+                    </div>
+                `;
                 DashboardHTML += html;
             }
-            console.log(DashboardHTML);
             document.querySelector('.js-dashboard').innerHTML = DashboardHTML; // Changed to target the correct div
         }
 
         function addDashboard() {
             const inputElement = document.querySelector('.js-location-input');
+            const imageInputElement = document.querySelector('.js-image-input');
             const location = inputElement.value;
-            if (location) {
+            const imageFile = imageInputElement.files[0]; // Get the selected file
+
+            if (location && imageFile) {
                 const date = new Date().toLocaleString(); // Get the current date and time
-                Dashboard.push({ location, date }); // Store both location and date as an object
-                console.log(Dashboard);
-                inputElement.value = '';
-                renderDashboard();
+                const imageURL = URL.createObjectURL(imageFile); // Create a URL for the image
+                Dashboard.push({ location, date, image: imageURL }); // Store location, date, and image URL as an object
+                inputElement.value = ''; // Clear the location input
+                imageInputElement.value = ''; // Clear the image input
+                renderDashboard(); // Re-render the dashboard
             }
         }
 
