@@ -1,9 +1,10 @@
 "use client"; // This makes the entire component a client component
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import {Suspense} from 'react'
 
 
 
@@ -44,6 +45,7 @@ export default function Landing() {
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-md">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -123,5 +125,6 @@ export default function Landing() {
         </div>
       </footer>
     </div>
+    </Suspense>
   );
 }
