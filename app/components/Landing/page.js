@@ -27,7 +27,7 @@ const hostelsData = [
 
 export default function Landing() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams =<Suspense>useSearchParams();</Suspense> 
   const [locationFilter, setLocationFilter] = useState(searchParams.get('location') || '');
   const [filteredHostels, setFilteredHostels] = useState(hostelsData);
 
