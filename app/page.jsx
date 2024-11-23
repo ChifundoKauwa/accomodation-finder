@@ -1,13 +1,16 @@
 "use client";
 
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import Landing from './components/Landing/landing-content'
 
 
 function Home() {
   return (
-    <Landing/>
+    <Suspense>
+        <Landing/>
+    </Suspense>
+  
   );
 }
 
