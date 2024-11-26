@@ -8,7 +8,7 @@ export default function Home() {
     const addDashboard = () => {
         if (location && image) {
             const date = new Date().toLocaleString(); // Get the current date and time
-            const newItem = { location, date, image: URL.createObjectURL(image) }; // Create new item with image URL
+            const newItem = { location, date, image: Home.createObjectURL(image) }; // Create new item with image URL
             setDashboard([...dashboard, newItem]); // Add new location to the dashboard
             setLocation(''); // Clear the input field
             setImage(null); // Clear the image file
