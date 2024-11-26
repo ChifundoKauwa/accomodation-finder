@@ -1,69 +1,93 @@
-'use client'
+'use client';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    href='/dashboard';
+    console.log('Redirecting to dashboard...');
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-500 to-blue-800">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-80">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 via-white to-blue-100">
+      <div className="bg-white shadow-2xl rounded-lg p-8 w-[90%] sm:w-[400px]">
         <div className="flex flex-col items-center mb-6">
-          <div className="bg-blue-100 rounded-full p-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zm0 2c-4 0-6 2-6 4v1h12v-1c0-2-2-4-6-4z" />
+          <div className="bg-gradient-to-r from-blue-400 to-blue-600 rounded-full p-4 shadow-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zm0 2c-4 0-6 2-6 4v1h12v-1c0-2-2-4-6-4z"
+              />
             </svg>
           </div>
-          <h2 className="mt-2 text-lg font-semibold text-gray-700">Sign in</h2>
+          <h2 className="mt-4 text-2xl font-bold text-gray-700">Welcome Back</h2>
+          <p className="text-sm text-gray-500">Log in to your account</p>
         </div>
-        
-        <form className="space-y-4" onSubmit={handleLogin}>
+
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div>
-            <input 
-              type="text" 
-              placeholder="Username" 
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
             />
           </div>
 
           <div className="relative">
-            <input 
-              type={showPassword ? "text" : "password"} 
-              placeholder="Password" 
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" 
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
             />
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="absolute inset-y-0 right-3 flex items-center text-blue-500 hover:text-blue-600"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? 'Hide' : 'Show'}
             </button>
           </div>
 
           <div className="flex items-center justify-between text-sm text-gray-600">
             <label className="inline-flex items-center">
-              <input type="checkbox" className="text-blue-500 border-gray-300 rounded focus:ring-0" />
+              <input
+                type="checkbox"
+                className="text-blue-500 border-gray-300 rounded focus:ring-0"
+              />
               <span className="ml-2">Remember me</span>
             </label>
-            <Link href={"/signup"} className="text-blue-500 hover:underline">Forgot password?</Link>
+            <Link href="/components/ForgotPassword" className="text-blue-500 hover:underline">
+              Forgot password?
+            </Link>
           </div>
 
-          <button type="submit" className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+          <button
+            type="submit"
+            className="w-full py-3 text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
             Login
           </button>
         </form>
-        
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Don't have an account? <Link href={"/components/SignUpForm"} className="text-blue-500 hover:underline">Register now</Link>
+
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Don't have an account?{' '}
+          <Link
+            href="/components/SignUpForm"
+            className="text-blue-500 font-semibold hover:underline"
+          >
+            Register now
+          </Link>
         </p>
       </div>
     </div>
