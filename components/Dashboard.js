@@ -62,7 +62,7 @@ export default function Home() {
                     className="ml-2 border border-gray-300 rounded-md p-2"
                 />
                 <button 
-                    className="bg-blue-500 text-white rounded-r-md px-4 hover:bg-blue-600"
+                    className="bg-blue-500 text-white rounded-md px-4 hover:bg-blue-600"
                     onClick={addDashboard} // Call addDashboard on button click
                 >
                     Add
@@ -80,7 +80,7 @@ export default function Home() {
                             </p>
                         </div>
                         <button 
-                            className="text-red-500 hover:text-red-700"
+                            className="bg-red-500 text-white rounded-md px-2 hover:bg-red-600"
                             onClick={() => deleteLocation(index)}
                         >
                             Delete
