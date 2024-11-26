@@ -4,15 +4,23 @@ export default function Home() {
     const [dashboard, setDashboard] = useState([]); // State to hold the dashboard items
     const [location, setLocation] = useState(''); // State to hold the input value
     const [image, setImage] = useState(null); // State to hold the image file
+    const [imageTitle, setImageTitle] = useState(''); // State to hold the image title
     const [price, setPrice] = useState(''); // State to hold the price input
 
     const addDashboard = () => {
-        if (location && image && price) {
+        if (location && image && price && imageTitle) {
             const date = new Date().toLocaleString(); // Get the current date and time
-            const newItem = { location, date, image: URL.createObjectURL(image), price }; // Create new item with image URL and price
+            const newItem = { 
+                location, 
+                date, 
+                image: URL.createObjectURL(image), 
+                price, 
+                title: imageTitle // Include the image title
+            }; 
             setDashboard([...dashboard, newItem]); // Add new location to the dashboard
             setLocation(''); // Clear the input field
             setImage(null); // Clear the image file
+            setImageTitle(''); // Clear the image title input
             setPrice(''); // Clear the price input
         }
     };
@@ -23,7 +31,7 @@ export default function Home() {
     };
 
     return (
-        <div className="max-w-md mx-auto p-4 bg-blue-100">{/* add blue background color*/}
+        <div className="max-w-md mx-auto p-4 bg-blue-100">
             <h1 className="text-2xl font-bold text-center mb-4">FIND YOUR ACCOMMODATION</h1>
             <p className="text-center mb-6">VISIT US</p>
             <div className="flex mb-4">
@@ -38,6 +46,13 @@ export default function Home() {
                     placeholder="Price"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)} // Update price state on input change
+                    className="ml-2 border border-gray-300 rounded-md p-2 text-center"
+                />
+                <input
+                    type="text"
+                    placeholder="Image Title"
+                    value={imageTitle}
+                    onChange={(e) => setImageTitle(e.target.value)} // Update image title state on input change
                     className="ml-2 border border-gray-300 rounded-md p-2 text-center"
                 />
                 <input
@@ -61,7 +76,7 @@ export default function Home() {
                                 <img src={item.image} alt="Location" className="w-16 h-16 object-cover rounded-md mr-2" />
                             )}
                             <p className="text-gray-700">
-                                {item.location} - Price: ${item.price} - Added on: {item.date}
+                                {item.title} - {item.location} - Price: ${item.price} - Added on: {item.date}
                             </p>
                         </div>
                         <button 
@@ -75,4 +90,4 @@ export default function Home() {
             </div>
         </div>
     );
-} 
+}
