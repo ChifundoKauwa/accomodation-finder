@@ -28,7 +28,7 @@ export default function Home() {
             <p className="text-center mb-6">VISIT US</p>
             <div className="flex mb-4">
                 <input
-                    className="flex-grow border border-gray-300 rounded-l-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-grow border border-gray-300 rounded-l-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
                     placeholder="House location"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)} // Update location state on input change
@@ -38,7 +38,7 @@ export default function Home() {
                     placeholder="Price"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)} // Update price state on input change
-                    className="ml-2 border border-gray-300 rounded-md p-2"
+                    className="ml-2 border border-gray-300 rounded-md p-2 text-center"
                 />
                 <input
                     type="file"
