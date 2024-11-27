@@ -23,7 +23,7 @@ export default function Home() {
     };
 
     return (
-        <div className="max-w-md mx-auto p-4">
+        <div className="max-w-md mx-auto p-4 bg-blue-100">{/* add blue background color*/}
             <h1 className="text-2xl font-bold text-center mb-4">FIND YOUR ACCOMMODATION</h1>
             <p className="text-center mb-6">VISIT US</p>
             <div className="flex mb-4">
