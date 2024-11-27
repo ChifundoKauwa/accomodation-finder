@@ -4,14 +4,16 @@ export default function Home() {
     const [dashboard, setDashboard] = useState([]); // State to hold the dashboard items
     const [location, setLocation] = useState(''); // State to hold the input value
     const [image, setImage] = useState(null); // State to hold the image file
+    const [price, setPrice] = useState(''); // State to hold the price input
 
     const addDashboard = () => {
-        if (location && image) {
+        if (location && image && price) {
             const date = new Date().toLocaleString(); // Get the current date and time
-            const newItem = { location, date, image: Home.createObjectURL(image) }; // Create new item with image URL
+            const newItem = { location, date, image: URL.createObjectURL(image), price }; // Create new item with image URL and price
             setDashboard([...dashboard, newItem]); // Add new location to the dashboard
             setLocation(''); // Clear the input field
             setImage(null); // Clear the image file
+            setPrice(''); // Clear the price input
         }
     };
 
@@ -30,6 +32,13 @@ export default function Home() {
                     placeholder="House location"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)} // Update location state on input change
+                />
+                <input
+                    type="number"
+                    placeholder="Price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)} // Update price state on input change
+                    className="ml-2 border border-gray-300 rounded-md p-2"
                 />
                 <input
                     type="file"
@@ -52,7 +61,7 @@ export default function Home() {
                                 <img src={item.image} alt="Location" className="w-16 h-16 object-cover rounded-md mr-2" />
                             )}
                             <p className="text-gray-700">
-                                {item.location} - Added on: {item.date}
+                                {item.location} - Price: ${item.price} - Added on: {item.date}
                             </p>
                         </div>
                         <button 
