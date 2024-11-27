@@ -2,13 +2,45 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter(); // Use Next.js router
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Redirecting to dashboard...');
+    setError(''); // Clear any previous errors
+
+    try {
+      const response = await fetch('https://backend2024-fpl8.onrender.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+
+      const data = await response.json();
+      console.log('Login successful:', data);
+
+      // Store the token in localStorage
+      localStorage.setItem('authToken', data.token);
+
+      // Redirect to the home page
+      router.push('/');
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError(err.message);
+    }
   };
 
   return (
@@ -35,11 +67,15 @@ const LoginForm = () => {
           <p className="text-sm text-gray-500">Log in to your account</p>
         </div>
 
+        {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+
         <form className="space-y-6" onSubmit={handleLogin}>
           <div>
             <input
               type="text"
               placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
             />
           </div>
@@ -48,6 +84,8 @@ const LoginForm = () => {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
             />
             <button

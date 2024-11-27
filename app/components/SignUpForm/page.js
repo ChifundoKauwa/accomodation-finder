@@ -10,15 +10,16 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('student'); // 'student' or 'administrator'
+  const [role, setRole] = useState('student'); // 'student' or 'landlord'
   const [error, setError] = useState('');
 
-  const router = useRouter(); // For programmatic navigation
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
+    // Validate fields
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
       setError('Please fill out all fields');
       return;
@@ -29,13 +30,42 @@ const SignUpForm = () => {
       return;
     }
 
-    // Redirect based on the selected role
-    if (role === 'student') {
-      console.log('Redirecting to Student Dashboard...');
-      router.push('/student-dashboard'); // Example route for students
-    } else {
-      console.log('Redirecting to Administrator Dashboard...');
-      router.push('/admin-dashboard'); // Example route for administrators
+    try {
+      // Send data to the backend
+      const response = await fetch('https://backend2024-fpl8.onrender.com/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+          role,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Signup failed');
+      }
+
+      const data = await response.json();
+      console.log('Signup successful:', data);
+
+      // Store token or relevant info if needed
+      localStorage.setItem('authToken', data.token);
+
+      // Redirect based on role
+      if (role === 'student') {
+        router.push('/components/Landing');
+      } else {
+        router.push('/components/Dashboard');
+      }
+    } catch (err) {
+      console.error('Signup failed:', err);
+      setError(err.message);
     }
   };
 
@@ -129,12 +159,12 @@ const SignUpForm = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="administrator"
-                  checked={role === 'administrator'}
-                  onChange={() => setRole('administrator')}
+                  value="landlord"
+                  checked={role === 'landlord'}
+                  onChange={() => setRole('landlord')}
                   className="text-blue-500 border-gray-300 focus:ring-0"
                 />
-                <span className="ml-2 text-sm text-gray-600">Administrator</span>
+                <span className="ml-2 text-sm text-gray-600">Landlord</span>
               </label>
             </div>
           </div>
@@ -155,7 +185,7 @@ const SignUpForm = () => {
             href="/components/LoginForm"
             className="text-blue-500 font-semibold hover:underline"
           >
-            Sign in
+            Log in
           </Link>
         </p>
       </div>

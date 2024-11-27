@@ -55,7 +55,7 @@ export default function Chat() {
     <div className="w-full max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-4 flex flex-col h-[600px]">
       {/* Chat Feed */}
       <div className="flex-1 overflow-y-auto mb-4">
-        <h2 className='font-semibold text-center text-2xl'>landlord chatRoom</h2>
+        <h2 className='font-semibold text-center text-blue-400 text-2xl'>landlord chatRoom</h2>
         <ChatFeed
           messages={messages}
           isTyping={false}
@@ -83,7 +83,7 @@ export default function Chat() {
         
         <button
           onClick={handleSendMessage}
-          className="px-4 py-2 sm:py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+          className="px-4 py-2 sm:py-3 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-200"
         >
          < IoSend size={25}/>
         </button>

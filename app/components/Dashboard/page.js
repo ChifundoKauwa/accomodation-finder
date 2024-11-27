@@ -1,52 +1,91 @@
-'use client'
-import { useState } from 'react';
+'use client';
 
-export default function Home() {
-    const [dashboard, setDashboard] = useState([]); // State to hold the dashboard items
-    const [location, setLocation] = useState(''); // State to hold the input value
-    const [image, setImage] = useState(null); // State to hold the uploaded image
+import React, { useState } from 'react';
 
-    const addDashboard = () => {
-        if (location && image) {
-            const date = new Date().toLocaleString(); // Get the current date and time
-            const newItem = { location, date, image }; // Create a new item with location, date, and image
-            setDashboard([...dashboard, newItem]); // Add new item to the dashboard
-            setLocation(''); // Clear the input field
-            setImage(null); // Clear the image state
-        }
-    };
+const Dashboard = () => {
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState(null);
+  const [message, setMessage] = useState('');
 
-    const deleteLocation = (index) => {
-        const newDashboard = dashboard.filter((_, i) => i !== index); // Remove the item at the specified index
-        setDashboard(newDashboard); // Update the dashboard state
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('image', image);
 
-    return (
+    try {
+      const response = await fetch('https://backend2024-fpl8.onrender.com/Hostels/landlord', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to post product');
+      }
+
+      setMessage('Product posted successfully!');
+      setName('');
+      setPrice('');
+      setDescription('');
+      setImage(null);
+    } catch (err) {
+      console.log(new Error(err));
+      setMessage('Error posting product');
+    }
+  };
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl text-blue-400 font-bold mb-6">Admin Dashboard</h1>
+      {message && <p className="mb-4 text-green-500">{message}</p>}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-            <h1>FIND YOUR ACCOMMODATION</h1>
-            <p>VISIT US</p>
-            <input
-                placeholder="House location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)} // Update location state on input change
-            />
-            <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))} // Update image state on file selection
-            />
-            <button onClick={addDashboard}>Add</button> {/* Call addDashboard on button click */}
-            <div className="js-dashboard">
-                {dashboard.map((item, index) => (
-                    <div key={index}>
-                        {item.image && <img src={item.image} alt={`Location ${item.location}`} style={{ width: '100px', height: '100px' }} />} {/* Display the image */}
-                        <p>
-                            {item.location} - Added on: {item.date}
-                            <button onClick={() => deleteLocation(index)}>Delete</button>
-                        </p>
-                    </div>
-                ))}
-            </div>
+          <label className="block text-sm font-medium">Product Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          />
         </div>
-    );
-}
+        <div>
+          <label className="block text-sm font-medium">Price</label>
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Description</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          ></textarea>
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Image</label>
+          <input
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+            className="w-full"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Post listings
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Dashboard;
