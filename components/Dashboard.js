@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Home() {
+export default function Dashboard() {
     const [dashboard, setDashboard] = useState([]); // State to hold the dashboard items
     const [location, setLocation] = useState(''); // State to hold the input value
     const [image, setImage] = useState(null); // State to hold the image file
