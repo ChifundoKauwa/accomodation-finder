@@ -27,6 +27,11 @@ export default function Home() {
   const [filteredHostels, setFilteredHostels] = useState(hostelsData);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Simulated login state
 
+  useEffect(()=>{
+    const token = localStorage.getItem('AuthToken');
+    setIsLoggedIn(!!token)
+  },[])
+
   useEffect(() => {
     const filtered = hostelsData.filter((hostel) =>
       hostel.location.toLowerCase().includes(locationFilter.toLowerCase())

@@ -21,7 +21,7 @@ const LoginForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -38,7 +38,7 @@ const LoginForm = () => {
       // Redirect to the home page
       router.push('/');
     } catch (err) {
-      console.error('Login failed:', err);
+      console.log('Login failed:', err);
       setError(err.message);
     }
   };
