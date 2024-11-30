@@ -10,7 +10,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('student'); // 'student' or 'landlord'
+  const [role, setRole] = useState(''); // 'student' or 'landlord'
   const [error, setError] = useState('');
 
   const router = useRouter();
@@ -32,7 +32,7 @@ const SignUpForm = () => {
 
     try {
       // Send data to the backend
-      const response = await fetch('https://backend2024-fpl8.onrender.com/users', {
+      const response = await fetch('https://backend2024-fpl8.onrender.com/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
