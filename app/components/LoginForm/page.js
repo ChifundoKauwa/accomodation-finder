@@ -6,14 +6,16 @@ import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setloading] = useState(false)
   const router = useRouter(); // Use Next.js router
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(''); // Clear any previous errors
+    setloading(true);
 
     try {
       const response = await fetch('https://backend2024-fpl8.onrender.com/auth/login', {
@@ -21,7 +23,7 @@ const LoginForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -36,11 +38,12 @@ const LoginForm = () => {
       localStorage.setItem('authToken', data.token);
 
       // Redirect to the home page
-      router.push('/');
+      router.push('/components/Message');
     } catch (err) {
       console.log('Login failed:', err);
       setError(err.message);
     }
+    setloading(false)
   };
 
   return (
@@ -72,10 +75,10 @@ const LoginForm = () => {
         <form className="space-y-6" onSubmit={handleLogin}>
           <div>
             <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
             />
           </div>
@@ -113,8 +116,10 @@ const LoginForm = () => {
           <button
             type="submit"
             className="w-full py-3 text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            disabled={loading}
           >
-            Login
+            {loading ? "Logging in...": "Login"}
+          
           </button>
         </form>
 
