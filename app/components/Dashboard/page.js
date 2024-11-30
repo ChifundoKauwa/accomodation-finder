@@ -1,40 +1,57 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Dashboard = () => {
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('price', price);
-    formData.append('description', description);
-    formData.append('image', image);
+
+    //
+    console.log(name, price, description);
+    // const formData = new FormData();
+    // formData.append("name", name);
+    // formData.append("price", price);
+    // formData.append("description", description);
+    // formData.append("image", image);
+    // console.log(formData);
+
+    const hosteldata = {
+      name: name,
+      price: price,
+      description: description,
+      image: image
+    }
+console.log(hosteldata);
 
     try {
-      const response = await fetch('https://backend2024-fpl8.onrender.com/Hostels/landlord', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        "https://backend2024-fpl8.onrender.com/hostels/landlord",
+        {
+          method: "POST",
+          headers:{
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(hosteldata),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to post product');
+        throw new Error("Failed to post product");
       }
-
-      setMessage('Product posted successfully!');
-      setName('');
-      setPrice('');
-      setDescription('');
-      setImage(null);
+      setMessage("Product posted successfully!");
+      setName("");
+      setPrice("");
+      setDescription("");
+      setImage("");
     } catch (err) {
       console.log(new Error(err));
-      setMessage('Error posting product');
+      setMessage("Error posting product");
     }
   };
 
